@@ -84,14 +84,16 @@ func InitDB() {
 // LoadConfigurationFile ...Loads config data stored in config.json
 func LoadConfigurationFile(filename string) Config {
 	var config Config
+
+	// Open the file and defer closing it until the function is done
 	configFile, err := os.Open(filename)
 	defer configFile.Close()
 	if err != nil {
 		log.Fatal("Error loading configuration: ", err)
 	}
 
-	jsonParser := json.NewDecoder(configFile)
-	jsonParser.Decode(&config)
+	// decode the json and store it in config
+	json.NewDecoder(configFile).Decode(&config)
 	return config
 }
 
@@ -214,6 +216,12 @@ func CreateNewUser(newUser User) {
 
 	// Commit the transaction
 	tx.Commit()
+
+	// Tell the User
+	fmt.Println("New user added to database....")
+
+	// Update the Users slice
+	GetUsers(db)
 }
 
 /* * * * * * * * * * * * * * *
@@ -236,6 +244,8 @@ func GetSinglePost(id string) Post {
 
 	return foundPost
 }
+
+// CreateNewPost ...Add a new post to the database
 
 /* * * * * * * * * * * * * * *
  *		COMMENT METHODS		 *
