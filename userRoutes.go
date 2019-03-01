@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 
@@ -57,11 +56,13 @@ func CreateUserHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Re-encode the data and prep it to be sent over to the db controller
-	err = json.NewEncoder(w).Encode(newUser)
-	if err != nil {
-		log.Fatal("Error encoding new user data: ", err)
-	}
+	// err = json.NewEncoder(w).Encode(newUser)
+	// if err != nil {
+	// 	log.Fatal("Error encoding new user data: ", err)
+	// }
+
+	CreateNewUser(newUser)
 
 	// but for now I'll just print it lol
-	fmt.Println(newUser)
+	// fmt.Println(newUser.Username)
 }

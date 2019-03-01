@@ -97,7 +97,7 @@ func LoadConfigurationFile(filename string) Config {
 
 // GetUsers ...Get all users from the database
 func GetUsers(db *sql.DB) []User {
-	rows, err := db.Query("SELECT * FROM users")
+	rows, err := db.Query("SELECT * FROM go_users")
 	if err != nil {
 		log.Fatal("Error selecting all users:  ", err)
 	}
@@ -122,7 +122,7 @@ func GetUsers(db *sql.DB) []User {
 
 // GetPosts ...Select all posts from the DB
 func GetPosts(db *sql.DB) []Post {
-	rows, err := db.Query("SELECT * FROM posts")
+	rows, err := db.Query("SELECT * FROM go_posts")
 	if err != nil {
 		log.Fatal("Error selecting all posts: ", err)
 	}
@@ -143,7 +143,7 @@ func GetPosts(db *sql.DB) []Post {
 
 // GetComments ...Select all comments from the DB
 func GetComments(db *sql.DB) []Comment {
-	rows, err := db.Query("SELECT * FROM comments")
+	rows, err := db.Query("SELECT * FROM go_comments")
 	if err != nil {
 		log.Fatal("Error selecting all comments: ", err)
 	}
@@ -184,12 +184,17 @@ func GetSingleUser(id string) User {
 }
 
 // CreateNewUser ...Add a new user to the database
-func CreateNewUser() {
+func CreateNewUser(newUser User) {
 	// open new db connection
 	// pull in data via params taken from req.Body
 	// decode the data
 	// push it to the db
 	// update our slices
+
+	fmt.Println("username: ", newUser.Username)
+	fmt.Println("Email: ", newUser.Email)
+	fmt.Println("Hash: ", newUser.Hash)
+	fmt.Println("Bio: ", newUser.Bio)
 }
 
 /* * * * * * * * * * * * * * *
