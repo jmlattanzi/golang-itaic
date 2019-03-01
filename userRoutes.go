@@ -56,7 +56,12 @@ func CreateUserHandler(w http.ResponseWriter, r *http.Request) {
 		log.Fatal("Error decoding data in request body: ", err)
 	}
 
-	// send decoded data to dbConn function to re-encode it and push it
+	// Re-encode the data and prep it to be sent over to the db controller
+	err = json.NewEncoder(w).Encode(newUser)
+	if err != nil {
+		log.Fatal("Error encoding new user data: ", err)
+	}
+
 	// but for now I'll just print it lol
 	fmt.Println(newUser)
 }
