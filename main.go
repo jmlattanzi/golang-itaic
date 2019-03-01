@@ -22,6 +22,7 @@ func main() {
 	router.HandleFunc("/", getHome).Methods("GET")
 	router.HandleFunc("/users", GetUsersHandler).Methods("GET")
 	router.HandleFunc("/users/{id}", GetUserHandler).Methods("GET")
+	router.HandleFunc("/users", CreateUserHandler).Methods("POST")
 
 	// Post routes
 	router.HandleFunc("/posts", GetPostsHandler).Methods("GET")

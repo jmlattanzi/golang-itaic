@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 
@@ -40,4 +41,22 @@ func GetUserHandler(w http.ResponseWriter, r *http.Request) {
 		log.Fatal("Error encoding user: ", err)
 	}
 
+}
+
+// CreateUserHandler ...Adds a new user and returns the updated user list
+func CreateUserHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	// Set newUser to be an empty user struct
+	newUser := User{}
+
+	// decode the request body and store it into newUser
+	err := json.NewDecoder(r.Body).Decode(&newUser)
+	if err != nil {
+		log.Fatal("Error decoding data in request body: ", err)
+	}
+
+	// send decoded data to dbConn function to re-encode it and push it
+	// but for now I'll just print it lol
+	fmt.Println(newUser)
 }

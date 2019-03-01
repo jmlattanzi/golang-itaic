@@ -185,7 +185,11 @@ func GetSingleUser(id string) User {
 
 // CreateNewUser ...Add a new user to the database
 func CreateNewUser() {
-
+	// open new db connection
+	// pull in data via params taken from req.Body
+	// decode the data
+	// push it to the db
+	// update our slices
 }
 
 /* * * * * * * * * * * * * * *
