@@ -185,16 +185,35 @@ func GetSingleUser(id string) User {
 
 // CreateNewUser ...Add a new user to the database
 func CreateNewUser(newUser User) {
-	// open new db connection
-	// pull in data via params taken from req.Body
-	// decode the data
-	// push it to the db
-	// update our slices
+	config := LoadConfigurationFile("config.json")
 
-	fmt.Println("username: ", newUser.Username)
-	fmt.Println("Email: ", newUser.Email)
-	fmt.Println("Hash: ", newUser.Hash)
-	fmt.Println("Bio: ", newUser.Bio)
+	db, err := sql.Open("postgres", config.DatabaseURI)
+	if err != nil {
+		log.Fatal("Error while running sql.Open(): ", err)
+	}
+	defer db.Close()
+
+	// Begin a database transaction
+	tx, err := db.Begin()
+	if err != nil {
+		log.Fatal("Error in db.Being(): ", err)
+	}
+
+	// Prepare the statement
+	stmt, err := tx.Prepare("INSERT INTO go_users VALUES ($1, $2, $3, $4, $5, $6, $7)")
+	if err != nil {
+		log.Fatal("Error preparing statement: ", err)
+	}
+	defer stmt.Close()
+
+	// Execute the statement
+	_, err = stmt.Exec(&newUser.ID, &newUser.Username, &newUser.Email, &newUser.Hash, &newUser.Bio, &newUser.AvatarURL, &newUser.Followers)
+	if err != nil {
+		log.Fatal("Error executing statement: ", err)
+	}
+
+	// Commit the transaction
+	tx.Commit()
 }
 
 /* * * * * * * * * * * * * * *
