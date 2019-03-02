@@ -36,7 +36,7 @@ func InitDB() {
 	}
 
 	// Not sure if the concurrency here is needed but oh well
-	go GetUsers(db) // Populate the users slice
+	GetUsers(db)    // Populate the users slice
 	GetPosts(db)    // Populate the posts slice
 	GetComments(db) // Populate the comments slice
 }
@@ -68,7 +68,7 @@ func GetUsers(db *sql.DB) []User {
 		log.Fatal("Error selecting all users:  ", err)
 	}
 
-	fmt.Println("Getting Users....")
+	fmt.Println("Getting all users....")
 	for rows.Next() {
 		usr := User{}                                                                                             // setup a temp user
 		err := rows.Scan(&usr.ID, &usr.Username, &usr.Email, &usr.Hash, &usr.Bio, &usr.AvatarURL, &usr.Followers) // scan the current row for this info
@@ -284,4 +284,43 @@ func GetCommentsForPost(postID string) []Comment {
 	}
 
 	return foundComments
+}
+
+// CreateNewComment ...Add a new post to the database
+func CreateNewComment(newComment Comment) {
+	config := LoadConfigurationFile("config.json")
+
+	db, err := sql.Open("postgres", config.DatabaseURI)
+	if err != nil {
+		log.Fatal("Error while running sql.Open(): ", err)
+	}
+	defer db.Close()
+
+	// Begin a database transaction
+	tx, err := db.Begin()
+	if err != nil {
+		log.Fatal("Error in db.Being(): ", err)
+	}
+
+	// Prepare the statement
+	stmt, err := tx.Prepare("INSERT INTO go_posts (post_id, user_id, comment, likes) VALUES ($1, $2, $3, $4)")
+	if err != nil {
+		log.Fatal("Error preparing statement: ", err)
+	}
+	defer stmt.Close()
+
+	// Execute the statement
+	_, err = stmt.Exec(&newComment.PostID, &newComment.UserID, &newComment.Comment, &newComment.Likes)
+	if err != nil {
+		log.Fatal("Error executing statement: ", err)
+	}
+
+	// Commit the transaction
+	tx.Commit()
+
+	// Tell the User
+	fmt.Println("New user added to database....")
+
+	// Update the Comments slice
+	GetComments(db)
 }

@@ -33,6 +33,7 @@ func main() {
 	router.HandleFunc("/comments", GetCommentsHandler).Methods("GET")
 	router.HandleFunc("/comments/{id}", GetCommentHandler).Methods("GET")
 	router.HandleFunc("/comments/posts/{id}", GetPostCommentsHandler).Methods("GET")
+	router.HandleFunc("/comments", CreateNewCommentHandler).Methods("POST")
 
 	log.Fatal(http.ListenAndServe(":8000", router))
 }

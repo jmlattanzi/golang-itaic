@@ -42,3 +42,14 @@ func GetPostCommentsHandler(w http.ResponseWriter, r *http.Request) {
 		log.Fatal("Error encoding post comments: ", err)
 	}
 }
+
+// CreateNewCommentHandler ...Adds a new comment to the database
+func CreateNewCommentHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	newComment := Comment{}
+
+	err := json.NewDecoder(r.Body).Decode(&newComment)
+	if err != nil {
+		log.Fatal("Error decoding data in request body (CreateNewCommentHandler): ", err)
+	}
+}
