@@ -27,6 +27,7 @@ func main() {
 	// Post routes
 	router.HandleFunc("/posts", GetPostsHandler).Methods("GET")
 	router.HandleFunc("/posts/{id}", GetSinglePostHandler).Methods("GET")
+	router.HandleFunc("/posts", CreatePostHandler).Methods("POST")
 
 	// Comment routes
 	router.HandleFunc("/comments", GetCommentsHandler).Methods("GET")

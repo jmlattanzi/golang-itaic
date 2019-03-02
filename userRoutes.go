@@ -52,17 +52,8 @@ func CreateUserHandler(w http.ResponseWriter, r *http.Request) {
 	// decode the request body and store it into newUser
 	err := json.NewDecoder(r.Body).Decode(&newUser)
 	if err != nil {
-		log.Fatal("Error decoding data in request body: ", err)
+		log.Fatal("Error decoding data in request body (CreateUserHandler): ", err)
 	}
 
-	// Re-encode the data and prep it to be sent over to the db controller
-	// err = json.NewEncoder(w).Encode(newUser)
-	// if err != nil {
-	// 	log.Fatal("Error encoding new user data: ", err)
-	// }
-
 	CreateNewUser(newUser)
-
-	// but for now I'll just print it lol
-	// fmt.Println(newUser.Username)
 }

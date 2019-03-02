@@ -36,3 +36,16 @@ func GetSinglePostHandler(w http.ResponseWriter, r *http.Request) {
 		log.Fatal("Error encoding post data: ", err)
 	}
 }
+
+// CreatePostHandler ...Add a new psot
+func CreatePostHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	newPost := Post{}
+	err := json.NewDecoder(r.Body).Decode(&newPost)
+	if err != nil {
+		log.Fatal("Error decoding data in request body (CreatePostHandler): ", err)
+	}
+
+	CreateNewPost(newPost)
+}
