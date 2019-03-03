@@ -303,7 +303,7 @@ func CreateNewComment(newComment Comment) {
 	}
 
 	// Prepare the statement
-	stmt, err := tx.Prepare("INSERT INTO go_posts (post_id, user_id, comment, likes) VALUES ($1, $2, $3, $4)")
+	stmt, err := tx.Prepare("INSERT INTO go_comments (post_id, user_id, comment, likes) VALUES ($1, $2, $3, $4)")
 	if err != nil {
 		log.Fatal("Error preparing statement: ", err)
 	}

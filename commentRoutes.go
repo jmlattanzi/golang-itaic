@@ -52,4 +52,6 @@ func CreateNewCommentHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal("Error decoding data in request body (CreateNewCommentHandler): ", err)
 	}
+
+	CreateNewComment(newComment)
 }
